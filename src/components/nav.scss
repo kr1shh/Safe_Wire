@@ -1,0 +1,102 @@
+@import "../theme/variables";
+
+nav {
+    .nav-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $white;
+        height: 100vh;
+        width: 300px;
+
+
+        .nav-content-1 {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+
+
+            .nav-logo {
+                img {
+                    width: 200px;
+                }
+            }
+
+            .nav-links {
+                ul {
+                    display: flex;
+                    flex-direction: column;
+                    list-style: none;
+                    gap: 10px;
+
+                    li {
+                        .nav-link {
+                            display: flex;
+                            align-items: center;
+                            text-decoration: none;
+                            color: $dark;
+                            font-size: 20px;
+                            margin: auto;
+                            padding: 10px 20px;
+                            border-radius: 15px;
+                            transition: all .2s ease-in-out;
+                            gap: 10px;
+                            
+
+                            &.active{
+                                background-color: orange;
+                                color: $white;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .nav-content-2{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 25px 0;
+
+            .nav-profile{
+                a{
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    text-decoration: none;
+                    color: $dark;
+                    gap: 20px;
+
+                    .pro-dp{
+                        font-size: 25px;
+                    }
+
+                    .pro-detail{
+                        display: flex;
+                        flex-direction: column;
+                        span{
+                            font-size: 16px;
+                            &:nth-child(1){
+                                font-weight: 600;
+                            }
+                        }
+                    }
+                }
+            }
+
+            button{
+                background-color: transparent;
+                border: none;
+                font-size: 25px;
+            }
+        }
+    }
+}

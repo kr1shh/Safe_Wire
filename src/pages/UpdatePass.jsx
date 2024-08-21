@@ -79,7 +79,7 @@ const UpdatePass = () => {
               >
                 Update
               </button>
-              <Link>Back to login!</Link>
+              <Link to={ "/login" }>Back to login!</Link>
             </div>
         </div>
   
