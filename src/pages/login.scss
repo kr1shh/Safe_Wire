@@ -84,5 +84,26 @@
             cursor: pointer;
             font-weight: 500;
         }
+
+        .rec{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+
+            a{
+                text-decoration: none;
+                font-size: 14px;
+
+                &:nth-child(1){
+                    color: $dark;
+                }
+
+                &:nth-child(2){
+                    color: $accent;
+                }
+            }
+        }
     }
 }

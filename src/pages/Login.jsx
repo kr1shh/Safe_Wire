@@ -1,9 +1,12 @@
 import "./login.scss";
 import { Background } from "../components";
 import { useState } from "react";
-import logo from "../assets/logo.png"
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
+import documentTitle from "../extras/documentTitle";
 
 const Login = () => {
+  documentTitle("Login - Safe Wire");
   const [passToggle, setPassToggle] = useState(false);
   const [credentials, setCredentials] = useState({
     username: null,
@@ -14,10 +17,10 @@ const Login = () => {
     <>
       <div className="login-container">
         <div className="login-card">
-        <div className="title">
-            <img src={ logo } alt="Logo" />
+          <div className="title">
+            <img src={logo} alt="Logo" />
             <h1>Login</h1>
-        </div>
+          </div>
           <div className="text">
             <label htmlFor="username">Username</label>
             <input
@@ -52,6 +55,11 @@ const Login = () => {
             />
           </div>
           <button>Login</button>
+
+          <div className="rec">
+            <Link to={"/"}>Forgot Password?</Link>
+            <Link to={"/register"}>Creact account!</Link>
+          </div>
         </div>
       </div>
 
