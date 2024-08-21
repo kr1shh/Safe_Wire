@@ -76,6 +76,7 @@ const Register = () => {
     //API Request
 
     toast.success("Success");
+
   };
 
   return (

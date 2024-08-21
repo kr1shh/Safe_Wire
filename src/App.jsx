@@ -5,7 +5,7 @@ import {
   createRoutesFromElements,
 } from "react-router-dom";
 import Layout from "./Layout";
-import { Login, Register, Home } from "./pages";
+import { Login, Register, Home, ForgotPass, UpdatePass } from "./pages";
 
 const App = () => {
 
@@ -15,6 +15,8 @@ const App = () => {
         <Route path="" element={ <Home/> }></Route>
         <Route path="login" element= { <Login/> }></Route>
         <Route path="register" element={ <Register/> }></Route>
+        <Route path="forgotpassword" element={ <ForgotPass/> }></Route>
+        <Route path="updatepassword" element={ <UpdatePass/> }></Route>
       </Route>
     )
   )

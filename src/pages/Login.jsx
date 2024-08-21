@@ -57,7 +57,7 @@ const Login = () => {
           <button>Login</button>
 
           <div className="rec">
-            <Link to={"/"}>Forgot Password?</Link>
+            <Link to={"/forgotpassword"}>Forgot Password?</Link>
             <Link to={"/register"}>Creact account!</Link>
           </div>
         </div>
