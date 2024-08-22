@@ -34,7 +34,7 @@ const Nav = () => {
                 </li>
                 <li>
                   <NavLink
-                    to={"#"}
+                    to={"/dashboard/transfer"}
                     className={({ isActive, isPending }) =>
                       isPending
                         ? "pending nav-link"

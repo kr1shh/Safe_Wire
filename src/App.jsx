@@ -6,6 +6,7 @@ import {
 } from "react-router-dom";
 import Layout from "./Layout";
 import { Login, Register, Home, ForgotPass, UpdatePass, Dashboard } from "./pages";
+import { Summery,MakeTransfer,Transactions } from "./components";
 
 const App = () => {
 
@@ -17,7 +18,11 @@ const App = () => {
         <Route path="register" element={ <Register/> }></Route>
         <Route path="forgotpassword" element={ <ForgotPass/> }></Route>
         <Route path="updatepassword" element={ <UpdatePass/> }></Route>
-        <Route path="dashboard" element={ <Dashboard/> }></Route>
+        <Route path="dashboard" element={ <Dashboard/> }>
+          <Route path="summery" element={ <Summery/> }></Route>
+          <Route path="transfer" element={ <MakeTransfer/> }></Route>
+          <Route path="transactions" element={ <Transactions/> }></Route>
+        </Route>
       </Route>
     )
   )
