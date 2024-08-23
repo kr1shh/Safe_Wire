@@ -74,4 +74,17 @@
         }
     }
 
+    .profile-update{
+        display: flex;
+        gap: 20px;
+
+        button{
+            &:nth-child(1){
+                background-color: transparent;
+                border: 1px solid $accent;
+                color: $accent;
+            }
+        }
+    }
+
 }
