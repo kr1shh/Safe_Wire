@@ -67,7 +67,7 @@ const Nav = () => {
           </div>
           <div className="nav-content-2">
             <div className="nav-profile">
-              <Link to={"#"}>
+              <Link to={"/dashboard/profile"}>
                 <div className="pro-dp">
                   {/* <img src="" alt="" /> */}
                   <FaUser />

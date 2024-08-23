@@ -3,5 +3,17 @@ import Nav from "./Nav";
 import MakeTransfer from "./MakeTransfer";
 import Summery from "./Summery";
 import Transactions from "./Transactions";
+import Loading from "./Loading";
+import BankCheck from "./BankCheck"
+import Profile from "./Profile";
 
-export { Background, Nav, MakeTransfer, Summery, Transactions,}
+export {
+  Background,
+  Nav,
+  MakeTransfer,
+  Summery,
+  Transactions,
+  Loading,
+  BankCheck,
+  Profile
+};

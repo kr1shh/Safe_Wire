@@ -1,0 +1,30 @@
+@import "../theme/variables";
+
+.bank-check{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+
+    button{
+        background-color: $accent;
+        border: none;
+        border-radius: 50px;
+        font-size: 18px;
+        padding: 12px 23px;
+        color: $white;
+        font-family: $montserrat;
+        cursor: pointer;
+        font-weight: 500;
+        margin: 20px 0 10px 0;
+
+        &:focus{
+            outline: none;
+        }
+    }
+}
+
+
