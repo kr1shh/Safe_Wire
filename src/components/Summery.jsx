@@ -1,26 +1,28 @@
 import { Link } from "react-router-dom";
 import "./summery.scss";
-import { useContext } from "react";
-import UserContext from "../context/userContext"
+// import { useContext } from "react";
+// import UserContext from "../context/userContext"
 import { BankCheck } from "./index"
+import { userDumData } from "../data/userData";
 
 const Summery = () => {
 
-  const { user } = useContext(UserContext)
+  // const { user } = useContext(UserContext)
+  
 
   return (
     <main>
-      {user ? (
+      {!userDumData[1].bank ? (
         <BankCheck />
       ) : (
         <div className="summery-container">
           <div className="bank-details">
-            <span>User Full Name</span>
+            <span>{userDumData[1].name}</span>
             <p>
-              <span>A/C</span>&nbsp;&nbsp;0000000000000
+              <span>A/C</span>&nbsp;&nbsp;{userDumData[1].bank.accountNo}
             </p>
             <p>
-              <span>IFSC</span>&nbsp;&nbsp;ABCD0001234
+              <span>IFSC</span>&nbsp;&nbsp;{userDumData[1].bank.ifsc}
             </p>
           </div>
           <Link to={"/dashboard/transfer"}>

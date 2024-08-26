@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import logo from "../assets/logo.png";
 import { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
+import { instance } from "../axios/instance";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   documentTitle("SignUp - Safe Wire");
@@ -23,6 +25,9 @@ const Register = () => {
     password: "",
     confirmPass: "",
   });
+  
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -33,10 +38,7 @@ const Register = () => {
     }));
 
     if (name === "email") {
-      // Basic email regex pattern
       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-      // Check if the email is valid
       if (!emailPattern.test(value)) {
         setCheck({
           email: "true",
@@ -75,8 +77,26 @@ const Register = () => {
 
     //API Request
 
-    toast.success("Success");
-
+    await instance.post('create-user/', {
+      name: userData.fullName,
+      email: userData.email,
+      phone: userData.phone,
+      password: userData.password,
+      username:userData.username,
+      dob:userData.dob,
+      address: userData.address,
+    })
+    .then(function (response) {
+      console.log(response);
+      toast.success("Success");
+      setTimeout(()=>{
+        navigate("/login")
+      },1500)
+    })
+    .catch(function (error) {
+      console.log(error);
+      toast.error(error.message);
+    });
   };
 
   return (
@@ -124,6 +144,7 @@ const Register = () => {
                 value={userData.dob}
                 onChange={handleInputChange}
                 name="dob"
+                pattern="\d{4}-\d{2}-\d{2}"
               />
             </div>
             <div className="reg-sec-2">

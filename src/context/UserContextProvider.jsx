@@ -4,7 +4,7 @@ import UserContext from "./userContext"
 
 const UserContextProvider = ({ children }) => {
 
-    const [user, setUser] = useState(true)
+    const [user, setUser] = useState(false)
 
   return (
     <UserContext.Provider

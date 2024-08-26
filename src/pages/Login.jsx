@@ -1,20 +1,70 @@
 import "./login.scss";
 import { Background } from "../components";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState,useEffect } from "react";
+import { Link,useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import documentTitle from "../extras/documentTitle";
+import { instance } from "../axios/instance";
+import toast, { Toaster } from "react-hot-toast";
+import validate from "../auth/verifyJwt";
 
 const Login = () => {
   documentTitle("Login - Safe Wire");
+
   const [passToggle, setPassToggle] = useState(false);
   const [credentials, setCredentials] = useState({
-    username: null,
-    password: null,
+    username: "",
+    password: ""
   });
+
+  const navigate = useNavigate();
+
+
+  const handleChange = (e) => {
+    const { name,value } = e.target;
+    setCredentials(prevState=>({
+      ...prevState,
+      [ name ]:value
+    }))
+  }
+
+  const handleSubmit = async() => {
+    if(!credentials.password && !credentials.username) {
+      toast.error("Username and Password Required.");
+      return
+    }
+
+
+    //API Call
+
+    await instance
+      .post("login/", {
+        username: credentials.username,
+        password: credentials.password,
+      })
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("access", res.data.access);
+        localStorage.setItem("refresh", res.data.refresh);
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(err.message);
+      });
+  }
+
+
+  useEffect(()=>{
+    if(validate()){
+      navigate("/dashboard")
+    }else{
+      navigate("/login")
+    }
+  })
 
   return (
     <>
+      <Toaster/>
       <div className="login-container">
         <div className="login-card">
           <div className="title">
@@ -26,12 +76,11 @@ const Login = () => {
             <input
               id="username"
               type="text"
+              name="username"
               required
               value={credentials.username}
               placeholder="Enter your Username or Email"
-              onChange={(e) => {
-                setCredentials({ username: e.target.value });
-              }}
+              onChange={ handleChange }
             />
           </div>
           <div className="pass">
@@ -45,16 +94,15 @@ const Login = () => {
             <label htmlFor="pass">Password</label>
             <input
               id="pass"
+              name="password"
               type={passToggle ? "text" : "password"}
               required
               value={credentials.password}
               placeholder="Enter your password"
-              onChange={(e) => {
-                setCredentials({ password: e.target.value });
-              }}
+              onChange={handleChange}
             />
           </div>
-          <button>Login</button>
+          <button onClick={ handleSubmit }>Login</button>
 
           <div className="rec">
             <Link to={"/forgotpassword"}>Forgot Password?</Link>

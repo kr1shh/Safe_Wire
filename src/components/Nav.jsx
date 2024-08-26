@@ -6,6 +6,7 @@ import { BiTransferAlt } from "react-icons/bi";
 import { TbReport } from "react-icons/tb";
 import { FaUser } from "react-icons/fa6";
 import { LuLogOut } from "react-icons/lu";
+import { userDumData } from "../data/userData";
 
 const Nav = () => {
   return (
@@ -73,8 +74,8 @@ const Nav = () => {
                   <FaUser />
                 </div>
                 <div className="pro-detail">
-                  <span>User&apos;s Name</span>
-                  <span>User&apos;s Email</span>
+                  <span>{userDumData[1].name}</span>
+                  <span>{userDumData[1].email}</span>
                 </div>
               </Link>
             </div>
