@@ -11,8 +11,13 @@ const userDumData = [
   },
   {
     id: 1,
+    userName:"krish",
     name: "Binnu",
+    phone:"1234567890",
+    dob:"2002-08-08",
+    address:"something goes here",
     email:"binnu@gmail.com",
+    pass:"none",
     bank: {
       name:"Axis",
       accountNo:1239377890123,
