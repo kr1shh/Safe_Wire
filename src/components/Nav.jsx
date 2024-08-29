@@ -1,14 +1,22 @@
 import "./nav.scss"
 import logo from "../assets/logo.png"
-import { NavLink,Link } from "react-router-dom"
+import { NavLink,Link, useNavigate } from "react-router-dom"
 import { MdSpaceDashboard } from "react-icons/md";
 import { BiTransferAlt } from "react-icons/bi";
 import { TbReport } from "react-icons/tb";
 import { FaUser } from "react-icons/fa6";
 import { LuLogOut } from "react-icons/lu";
-import { userDumData } from "../data/userData";
+import { useContext } from "react";
+import UserContext from "../context/userContext";
 
 const Nav = () => {
+  const navigate = useNavigate()
+  const { user } = useContext(UserContext)
+  
+  const logOut = ()=>{
+    localStorage.removeItem("access")
+    navigate("/login")
+  }
   return (
     <>
       <nav>
@@ -74,12 +82,12 @@ const Nav = () => {
                   <FaUser />
                 </div>
                 <div className="pro-detail">
-                  <span>{userDumData[1].name}</span>
-                  <span>{userDumData[1].email}</span>
+                  <span>{user.name}</span>
+                  <span>{user.email}</span>
                 </div>
               </Link>
             </div>
-            <button>
+            <button onClick={logOut}>
               <LuLogOut />
             </button>
           </div>

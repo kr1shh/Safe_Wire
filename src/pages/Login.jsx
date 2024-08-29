@@ -43,13 +43,12 @@ const Login = () => {
         password: credentials.password,
       })
       .then((res) => {
-        console.log(res);
         localStorage.setItem("access", res.data.access);
-        localStorage.setItem("refresh", res.data.refresh);
+        navigate("/dashboard")
       })
       .catch((err) => {
         console.log(err);
-        toast.error(err.message);
+        toast.error(err.response.data.error);
       });
   }
 
@@ -60,7 +59,7 @@ const Login = () => {
     }else{
       navigate("/login")
     }
-  })
+  },[])
 
   return (
     <>

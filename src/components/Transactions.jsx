@@ -1,51 +1,78 @@
 import "./transactions.scss";
 import { BankCheck } from "./index"
 import UserContext from "../context/userContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import documentTitle from "../extras/documentTitle";
+import { useUserId } from "../hooks/useUserId";
+import { instance } from "../axios/instance";
 
 const Transactions = () => {
+  documentTitle("Transactions - SafeWire")
+  const [transactions, setTransactions] = useState([])
   const { user } = useContext(UserContext)
+  const userId = useUserId()
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await instance.get(`transaction/list/${userId}/`);
+        console.log("transaction res : ", response.data.data);
+        if (Array.isArray(response.data.data)) {
+          const formattedTransactions = response.data.data.map(transaction => ({
+            resName: transaction.nameOrig || "",
+            amount: transaction.amount || "",
+            date: transaction.date || "",
+            accountNo: transaction.ac_number || "",
+            type: transaction.transaction_type || ""
+          }));
+          setTransactions(formattedTransactions);
+        } else {
+          console.error("Expected an array of transactions, but got:", response.data);
+        }
+      } catch (err) {
+        console.log("Transaction err : ", err)
+      }
+    }
+    fetchData()
+  }, [userId])
+
+  useEffect(() => {
+    console.log("Updated transactions state:", transactions);
+  }, [transactions]);
 
   return (
     <>
-      {user ? (
+      {user.bank.accountNo === "" ? (
         <BankCheck />
       ) : (
         <div className="transactions-container">
           <h1>Transactions</h1>
-          <table>
-            <tr>
-              <th>Transaction</th>
-              <th>Amount</th>
-              <th>Date</th>
-              <th>Account</th>
-            </tr>
-            <tr>
-              <td>User Name</td>
-              <td>200</td>
-              <td>10-08-24</td>
-              <td>1234567890123</td>
-            </tr>
-
-            <tr>
-              <td>User Name</td>
-              <td>200</td>
-              <td>10-08-24</td>
-              <td>1234567890123</td>
-            </tr>
-            <tr>
-              <td>User Name</td>
-              <td>200</td>
-              <td>10-08-24</td>
-              <td>1234567890123</td>
-            </tr>
-            <tr>
-              <td>User Name</td>
-              <td>200</td>
-              <td>10-08-24</td>
-              <td>1234567890123</td>
-            </tr>
-          </table>
+          {transactions.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>Recipient</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                    <th>Account</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {transactions.map((transaction, index) => (
+                    <tr key={index}>
+                      <td>{transaction.resName}</td>
+                      <td>{transaction.amount}</td>
+                      <td>{transaction.date}</td>
+                      <td>{transaction.accountNo}</td>
+                      <td>{transaction.type}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <p className="no-data">No transaction data available</p>
+            )}
         </div>
       )}
     </>

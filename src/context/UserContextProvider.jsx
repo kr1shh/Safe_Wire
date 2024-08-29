@@ -4,11 +4,27 @@ import UserContext from "./userContext"
 
 const UserContextProvider = ({ children }) => {
 
-    const [user, setUser] = useState(false)
+    const [user, setUser] = useState({
+      id: "",
+      userName: "",
+      name: "",
+      phone: "",
+      dob: "",
+      address: "",
+      email: "",
+      pass: "",
+      bank: {
+        name: "",
+        accountNo: "",
+        ifsc: "",
+      },
+    });
+
+    const [ isFraud, setIsFraud] = useState(true)
 
   return (
     <UserContext.Provider
-    value={{ user,setUser }}>
+    value={{ user,setUser,isFraud,setIsFraud }}>
         { children }
     </UserContext.Provider>
   )

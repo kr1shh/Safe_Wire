@@ -14,15 +14,20 @@
         justify-content: center;
         background-color: $white;
         border-radius: 30px;
-        padding: 50px;
+        padding: 20px 50px;
 
         .add-title{
             margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             img{
-                width: 300px;
+                width: 200px;
             }
             h1{
                 text-align: center;
+                font-size: 19px;
             }
         }
 
@@ -44,7 +49,7 @@
                 border: none;
                 background-color: $secondary;
                 font-family: $montserrat;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
 
                 &:focus{
                     outline: none;

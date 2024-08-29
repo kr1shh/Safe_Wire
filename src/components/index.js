@@ -6,6 +6,7 @@ import Transactions from "./Transactions";
 import Loading from "./Loading";
 import BankCheck from "./BankCheck"
 import Profile from "./Profile";
+import Modal from "./Modal";
 
 export {
   Background,
@@ -15,5 +16,6 @@ export {
   Transactions,
   Loading,
   BankCheck,
-  Profile
+  Profile,
+  Modal,
 };

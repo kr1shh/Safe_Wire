@@ -1,0 +1,50 @@
+@import "../theme/variables";
+
+.modal-container{
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.342);
+
+    .modal{
+        background-color: $white;
+        padding: 30px;
+        border-radius: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 10px;
+
+        button{
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            font-size: 19px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            &:focus{
+                outline: none;
+            }
+        }
+
+        h1{
+            padding: 10px;
+            color: rgb(206, 33, 33);
+        }
+
+        .modal-div{
+            border-radius: 50px;
+            width: 80%;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.144);
+        }
+    }
+}
