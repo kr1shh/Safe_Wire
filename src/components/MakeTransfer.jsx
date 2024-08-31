@@ -34,6 +34,10 @@ const MakeTransfer = () => {
         ac_number: transferData.resAc,
         ifsc_code: transferData.ifsc,
         nameOrig: transferData.resName,
+      },{
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        }
       });
       console.log("transfer res : ", transferRes);
       setTransferData({
@@ -53,6 +57,7 @@ const MakeTransfer = () => {
     } catch (err) {
       console.log("Transfer Error", err);
       toast.error(err.response.data.message);
+      setIsFraud(true)
     }finally{
       setLoading(false);
     }

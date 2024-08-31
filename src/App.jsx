@@ -18,7 +18,6 @@ const App = () => {
         <Route path="login" element={<Login />}></Route>
         <Route path="register" element={<Register />}></Route>
         <Route path="forgotpassword" element={<ForgotPass />}></Route>
-        <Route path="updatepassword" element={<UpdatePass />}></Route>
         <Route path="addbank" element={<AddBank />}></Route>
         <Route path="dashboard" element={<Dashboard />}>
           <Route index element={<Navigate to="summery" replace />} />

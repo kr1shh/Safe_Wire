@@ -1,11 +1,11 @@
 import "./forgotPass.scss";
 import { Background } from "../components";
 import logo from "../assets/logo.png";
-import { useState } from "react";
+import {  useState } from "react";
 import documentTitle from "../extras/documentTitle";
 import { Link, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-import { PropagateLoader } from "react-spinners";
+import { instance } from "../axios/instance";
 
 const ForgotPass = () => {
   documentTitle("Recovery - Safe Wire");
@@ -14,14 +14,8 @@ const ForgotPass = () => {
     email: "",
     newPassword: "",
   });
-  const [check, setCheck] = useState({
-    email: "",
-    loading: false,
-  });
 
   const navigate = useNavigate();
-
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -30,49 +24,31 @@ const ForgotPass = () => {
       ...prevState,
       [name]: value,
     }));
-
-    if (!emailPattern.test(value)) {
-      setCheck({
-        email: "true",
-      });
-    } else {
-      setCheck({
-        email: "false",
-      });
-    }
   };
 
   const handleSubmit = async () => {
-    if (recData.email === "" || !emailPattern.test(recData.email) ) {
-      toast.error("Enter a Valid Email!");
-      return;
-    }
 
-    console.log("send Clicked");
-    setCheck({
-      loading: true,
-    });
-
-    setTimeout(() => {
-      setCheck({
-        loading: false,
-      });
-    }, 2000);
-
-    navigate("/updatepassword");
+    await instance
+      .post(`api/password_reset/`, {
+        email: recData.email,
+        new_password: recData.newPassword,
+      })
+      .then((res) => {
+        console.log("password reset response :\n",res);
+        toast.success(res.data.detail)
+        setTimeout(()=>{
+          navigate("/login")
+        },1500)
+      })
+      .catch((err)=>{
+        console.log("password reset error\n",err);
+        toast.error(err.message)
+      })
   };
 
   return (
     <>
       <div className="rec-container">
-        {check.loading ? (
-          <div className="rec-loading">
-            <PropagateLoader color="#FF930F" />
-          </div>
-        ) : (
-          ""
-        )}
-
         <div className="rec-card">
           <div className="rec-title">
             <img src={logo} alt="Logo" />
@@ -88,21 +64,26 @@ const ForgotPass = () => {
               value={recData.email}
               onChange={handleChange}
               placeholder="Enter Your Email."
-              style={
-                check.email === "true"
-                  ? { border: "1px solid red" }
-                  : { border: "none" }
-              }
+            />
+            <label htmlFor="newpass">New Password</label>
+            <input
+              type="password"
+              name="newPassword"
+              id="newpass"
+              required
+              value={recData.newPassword}
+              onChange={handleChange}
+              placeholder="Enter Your New Password."
             />
           </div>
           <button
             onClick={() => {
-              handleSubmit("send");
+              handleSubmit();
             }}
           >
             Send
           </button>
-          <Link to={ "/login" }>Back to login!</Link>
+          <Link to={"/login"}>Back to login!</Link>
         </div>
       </div>
 

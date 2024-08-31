@@ -2,7 +2,7 @@ import "./dashboard.scss"
 import { Nav } from "../components"
 import { Outlet, useNavigate } from "react-router-dom"
 import validate from "../auth/verifyJwt"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../context/userContext"
 import { instance } from "../axios/instance"
 import { useUserId } from "../hooks/useUserId"
@@ -10,17 +10,27 @@ import { Modal } from "../components"
 
 const Dashboard = () => {  
   const navigate = useNavigate()
-  const { user,setUser,isFraud } = useContext(UserContext)
+  const { user,setUser,isFraud,setIsFraud } = useContext(UserContext)
+  const [ modalActive,setModalActive ] = useState(false)
+  const [ message, setMessage ] = useState({
+    count:0,
+    title:"Tip of the Day",
+    msg:""
+  })
   console.log(user);
   
   const id = useUserId()
   useEffect(() => {
     if (!validate()) {
+      console.log("validation failed")
       navigate("/login")
       return
     }
     
     const fetchData = async () => {
+      const access = localStorage.getItem("access")
+      console.log("token : ",access);
+      
       try {
         const userResponse = await instance.get(`users/detail/${id}/`);
         setUser(prevState => ({
@@ -46,6 +56,8 @@ const Dashboard = () => {
         }  
       } catch (err) {
         console.log(err);
+        console.log("removing token")
+        localStorage.removeItem("access");
         navigate("/login");
       }
     };
@@ -53,15 +65,47 @@ const Dashboard = () => {
     fetchData();
   }, [id, navigate, setUser]);
 
+  useEffect(()=>{
+    const fetchData = async () => {
+      try{
+        const adiveRes = await instance.get("random/")
+        console.log("random res : ",adiveRes);
+        setMessage((prevState)=>({
+          ...prevState,
+          msg:adiveRes.data.text
+        }))
+        setModalActive(true);
+      }
+      catch(err){
+        console.log(err);
+      }
+    }
+
+    if(message.count === 0){
+      setTimeout(()=>{
+        fetchData();
+      },3000)
+    }
+  },[])
+
+  const fraudClose = ()=>{
+    setIsFraud(false)
+  }
+  const modalClose = ()=>{
+    setModalActive(false)
+  }
 
   return (
     <>
     {
-      isFraud&&(
+      isFraud || modalActive ? (
         <Modal
-        title={"Fraud Detected"}
-        description={"hello how are you"}/>
-      )
+        title={isFraud?"Fraud Detected!":(modalActive?"Advice and Tip":"")}
+        description={isFraud?"Fraud detected transaction failed!":(modalActive?message.msg:"")}
+        color = { isFraud?"red":(modalActive&&"green")}
+        activeToggle = { isFraud?fraudClose:(modalActive?modalClose:"") }
+        />
+      ):""
     }
       <Nav/>
     

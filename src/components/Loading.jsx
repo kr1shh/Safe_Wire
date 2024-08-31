@@ -15,6 +15,7 @@ const Loading = () => {
           justifyContent: "center",
           backgroundColor: "#ffffff95",
           borderRadius: "30px",
+          zIndex:100,
         }}
       >
         <PropagateLoader color="#FF930F"/>

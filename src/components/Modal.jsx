@@ -6,12 +6,13 @@ import UserContext from "../context/userContext";
 
 const Modal = (props) => {
     const { isFraud,setIsFraud } = useContext(UserContext);
+
   return (
     <>
         <div className="modal-container">
             <div className="modal">
-                <button onClick={ ()=>setIsFraud( !isFraud ) }><IoClose/></button>
-                <h1>{props.title}</h1>
+                <button onClick={ props.activeToggle }><IoClose/></button>
+                <h1 style={{color:props.color}}>{props.title}</h1>
                 {/* <div className="modal-div"></div> */}
                 <p>{props.description}</p>
             </div>

@@ -16,7 +16,11 @@ const Summery = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await instance.get(`transaction/list/${userId}/`);
+        const response = await instance.get(`transaction/list/${userId}/`,{
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+          }
+        });
         console.log("transaction res : ", response.data.data);
         if (Array.isArray(response.data.data)) {
           const formattedTransactions = response.data.data.map(transaction => ({

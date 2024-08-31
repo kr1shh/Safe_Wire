@@ -1,5 +1,5 @@
 import "./login.scss";
-import { Background } from "../components";
+import { Background, Loading } from "../components";
 import { useState,useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
@@ -8,10 +8,13 @@ import { instance } from "../axios/instance";
 import toast, { Toaster } from "react-hot-toast";
 import validate from "../auth/verifyJwt";
 
+
+
 const Login = () => {
   documentTitle("Login - Safe Wire");
 
   const [passToggle, setPassToggle] = useState(false);
+  const [ loading,setLoading ] = useState(false);
   const [credentials, setCredentials] = useState({
     username: "",
     password: ""
@@ -36,6 +39,7 @@ const Login = () => {
 
 
     //API Call
+    setLoading(true)
 
     await instance
       .post("login/", {
@@ -49,7 +53,14 @@ const Login = () => {
       .catch((err) => {
         console.log(err);
         toast.error(err.response.data.error);
-      });
+        setCredentials({
+          username: "",
+          password:"",
+        })
+      })
+      .finally(()=>{
+        setLoading(false)
+      })
   }
 
 
@@ -64,6 +75,9 @@ const Login = () => {
   return (
     <>
       <Toaster/>
+      {
+        loading&&(<Loading/>)
+      }
       <div className="login-container">
         <div className="login-card">
           <div className="title">

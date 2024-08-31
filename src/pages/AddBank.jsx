@@ -39,27 +39,36 @@ const AddBank = () => {
     console.log("One or more fields are empty. Function terminated.");
     return;
   }
-  await instance.post(`bankaccounts/create/${user_id}/`,{
-    account_number : bank.accountNo,
-    account_holder_name : bank.name,
-    ifsc_code : bank.ifsc,
-    bank_name : bank.bankName,
-    branch_name: bank.branchName,
-  })
-  .then((res)=>{
-    console.log(res);
-    if(res.data.status === "ok"){
-      toast.success(res.data.message)
-      setTimeout(()=>{
-        navigate("/dashboard")
-      },2000)
-    }else{
-      toast.error(res.data.message);
-    }
-  })
-  .catch((err)=>{
-    console.log(err)
-  })
+  await instance
+    .post(
+      `bankaccounts/create/${user_id}/`,
+      {
+        account_number: bank.accountNo,
+        account_holder_name: bank.name,
+        ifsc_code: bank.ifsc,
+        bank_name: bank.bankName,
+        branch_name: bank.branchName,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access")}`,
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res);
+      if (res.data.status === "ok") {
+        toast.success(res.data.message);
+        setTimeout(() => {
+          navigate("/dashboard");
+        }, 2000);
+      } else {
+        toast.error(res.data.message);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   
  }
 

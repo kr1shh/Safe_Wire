@@ -20,7 +20,7 @@ const UserContextProvider = ({ children }) => {
       },
     });
 
-    const [ isFraud, setIsFraud] = useState(true)
+    const [ isFraud, setIsFraud] = useState(false)
 
   return (
     <UserContext.Provider
