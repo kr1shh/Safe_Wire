@@ -17,9 +17,14 @@ const Dashboard = () => {
     title:"Tip of the Day",
     msg:""
   })
+
   console.log(user);
   
   const id = useUserId()
+  if(id === false){
+    navigate("/login")
+  }
+
   useEffect(() => {
     if (!validate()) {
       console.log("validation failed")

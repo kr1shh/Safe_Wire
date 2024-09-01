@@ -3,7 +3,7 @@ import { jwtDecode } from "jwt-decode";
 const validate = () => {
   const token = localStorage.getItem("access");
 
-  if (!token) {
+  if (typeof token !== "string") {
     console.log("no token found");
     return false;
   }
