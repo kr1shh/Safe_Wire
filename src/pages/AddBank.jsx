@@ -39,6 +39,30 @@ const AddBank = () => {
     console.log("One or more fields are empty. Function terminated.");
     return;
   }
+
+
+
+  if (bank.accountNo.length < 9 || bank.accountNo.length > 18) {
+    toast.error("Enter a valid account number")
+    console.log("Account number must be between 9 and 18 digits.");
+    return;
+  }
+
+  if (bank.ifsc.length !== 11) {
+    toast.error("Enter a valid IFSC Code")
+    console.log("IFSC code must be exactly 11 characters long.");
+    return;
+  }
+
+
+  const ifscRegex = /^[A-Za-z]{4}\d{7}$/; 
+  if (!ifscRegex.test(bank.ifsc)) {
+    toast.error("Enter a valid IFSC Code")
+    console.log("Invalid IFSC code format.");
+    return;
+  }
+
+
   await instance
     .post(
       `bankaccounts/create/${user_id}/`,

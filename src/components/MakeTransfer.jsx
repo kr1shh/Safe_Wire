@@ -57,7 +57,6 @@ const MakeTransfer = () => {
     } catch (err) {
       console.log("Transfer Error", err);
       toast.error(err.response.data.message);
-      setIsFraud(true)
     }finally{
       setLoading(false);
     }
