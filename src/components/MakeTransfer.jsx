@@ -18,28 +18,36 @@ const MakeTransfer = () => {
     ifsc: "",
   });
 
-  const [ loading, setLoading ] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-
-  const { user,setIsFraud } = useContext(UserContext);
+  const { user, setIsFraud } = useContext(UserContext);
   const userId = useUserId();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    
+    // Create FormData object
+    const formData = new FormData();
+    formData.append('amount', transferData.amount);
+    formData.append('transaction_type', transferData.type);
+    formData.append('ac_number', transferData.resAc);
+    formData.append('ifsc_code', transferData.ifsc);
+    formData.append('nameOrig', transferData.resName);
+
     try {
-      const transferRes = await instance.post(`transaction/create/${userId}/`, {
-        amount: transferData.amount,
-        transaction_type: transferData.type,
-        ac_number: transferData.resAc,
-        ifsc_code: transferData.ifsc,
-        nameOrig: transferData.resName,
-      },{
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("access")}`,
+      const transferRes = await instance.post(`transaction/create/${userId}/`, 
+        formData,  // Send as FormData
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("access")}`,
+            'Content-Type': 'multipart/form-data',  // Important: Set correct content type
+          }
         }
-      });
+      );
+      
       console.log("transfer res : ", transferRes);
+      
       setTransferData({
         type: "transfer",
         resName: "",
@@ -47,17 +55,18 @@ const MakeTransfer = () => {
         amount: "",
         ifsc: "",
       });
+
       if (transferRes.data.is_fraud) {
         setIsFraud(transferRes.data.is_fraud);
         toast.error("Fraud Detected!!!");
         return;
       } else {
-        toast.success(`${transferData.type} successfull`);
+        toast.success(`${transferData.type} successful`);
       }
     } catch (err) {
       console.log("Transfer Error", err);
-      toast.error(err.response.data.message);
-    }finally{
+      toast.error(err.response?.data?.message || "Transfer failed");
+    } finally {
       setLoading(false);
     }
   };
@@ -105,7 +114,7 @@ const MakeTransfer = () => {
                 placeholder="Enter recipient account no. "
                 required
                 name="resAc"
-                value={transferData.resAccountNo}
+                value={transferData.resAc}
                 onChange={handleChange}
               />
               <label htmlFor="account">IFSC Code</label>
